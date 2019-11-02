@@ -18,3 +18,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
+// This is for product controller
+Route::apiResource('/products','ProductController');
+
+
+// This is for rating and its associate controller is Review Controller
+Route::group(['prefix'=>'products'],function(){
+      Route::apiResource('{product_id}/reviews','ReviewController');
+});
