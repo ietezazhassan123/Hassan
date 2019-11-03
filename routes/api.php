@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 // This is for product controller
-Route::apiResource('/products','ProductController');
+Route::apiResource('products','ProductController');
 
 
 // This is for rating and its associate controller is Review Controller
