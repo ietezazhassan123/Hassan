@@ -18,6 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::post('login', 'UserController@login');
+Route::post('register', 'UserController@register');
+Route::group(['middleware' => 'auth:api'], function(){
+Route::post('details', 'UserController@details');
+});
+
+
+
 // This is for product controller
 Route::apiResource('products','ProductController');
 
