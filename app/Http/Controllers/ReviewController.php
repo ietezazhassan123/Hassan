@@ -75,7 +75,7 @@ class ReviewController extends Controller
     {
         //
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *
@@ -83,9 +83,19 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request , Product $product_id,Review $review)
     {
-        //
+        $this->checkReviewDeletion($product_id,$review);
+        $review12 = Review::find($review->id);
+        $review12->customer = $request->customer;
+        $review12->review = $request->review;
+        $review12->star = $request->star;
+        $review12->save();
+
+        return response()->json([
+            'data'=> new ReviewResource($review12)
+        ]);
+        
     }
 
     /**
