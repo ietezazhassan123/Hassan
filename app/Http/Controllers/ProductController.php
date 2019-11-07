@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 
+
+use App\Exceptions\ProductUserNotMatch;
+use App\Exceptions\MyProductException;
+use App\Exceptions\CheckUser4Deletion;
+
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductCollection;
 
 use App\Http\Requests\ProductValid;
+use Auth;
 
 class ProductController extends Controller
 { 
@@ -93,6 +99,7 @@ class ProductController extends Controller
      */
     public function update(ProductValid $request, Product $product)
     {
+       $this->checkUserNow($product);
        $product->update($request->all());
        return Response([
             'data' => new ProductResource($product)] , Response::HTTP_CREATED);
@@ -107,7 +114,36 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->CheckUserForDelete($product);
         $product->delete();
         return "Product Deleted Successfully";
+    }
+
+
+    public function CheckUserCredential($product)
+    {
+        if(Auth::id() !== $product->user_id)
+        {
+            throw new ProductUserNotMatch; 
+        }
+    }
+
+
+
+    public function checkUserNow($product)
+    {
+          if(Auth::id() !== $product->user_id)
+          {
+            throw new MyProductException; 
+          }
+    }
+
+
+    public function CheckUserForDelete($product)
+    {
+         if(Auth::id() !== $product->user_id)
+         {
+            throw new CheckUser4Deletion;
+         }
     }
 }

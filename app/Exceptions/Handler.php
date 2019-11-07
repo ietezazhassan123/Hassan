@@ -55,6 +55,6 @@ class Handler extends ExceptionHandler
         {
             return $this->ExcpetionByIetezazKhattak($request,$exception);
         }
-        return parent::render($request, $exception);
+        
     }
 }

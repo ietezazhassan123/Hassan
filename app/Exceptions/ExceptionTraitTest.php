@@ -23,6 +23,8 @@ trait ExceptionTraitTest
             {
             	return $this->ModelException($exception);
             }
+
+            return parent::render($request, $exception);
 	  }
 
 
